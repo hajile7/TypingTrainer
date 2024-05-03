@@ -1,11 +1,34 @@
-<div class="containerfluid">
-    @if(correct) {
-        <p style="color: green;">{{currChar}}</p>
+<div class="row" style="background-color: black;">
+    @if(prevChar != "") {
+        @if(correct) {
+            <p style="color: green;">{{prevChar}}</p>
+        }
+        @else {
+            <p style="color:red">{{prevChar}}</p>
+        }    
     }
-    @else {
-        <p style="color:red">{{currChar}}</p>
-    }
+    <p style="color: gray">{{this.currChar}}</p>
     <input type="text" (input)="onInput($event)">
-    <br><br><br>
-    <button type="button" class="btn btn-danger" (click)="test()">Test me</button>
+    <div class="row">
+        <p><u>PREFERENCES</u></p>
+        <p>Letters:</p>
+        <div class="col" *ngFor="let letter of letters">
+           <p (click)="addPref($event)" style="cursor: pointer;">{{letter}}</p> 
+        </div>
+        <p>Symbols:</p>
+        <div class="col" *ngFor="let symbol of symbols">
+            <p (click)="addPref($event)" style="cursor: pointer;">{{symbol}}</p> 
+        </div>
+         <p>Numbers:</p>
+         <div class="col" *ngFor="let number of numbers">
+            <p (click)="addPref($event)" style="cursor: pointer;">{{number}}</p> 
+        </div>
+    </div>
+    <p>Your Preferences:</p>
+    <div class="row justify-content-center">
+        <div class="col align-self-center" *ngFor="let char of preferences">
+            <p style="color:red"> {{char}} </p>
+        </div>
+    </div>
+    <button class="btn btn-danger" (click)="resetPrefs()">Reset Preferences</button>
 </div>

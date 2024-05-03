@@ -1,14 +1,19 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AppComponent],
+  imports: [RouterOutlet, AppComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
+
+  constructor() {
+    this.getNextChar();
+  }
   
   letters:string[] = ['a', 'b', 'c', 'd','e', 'f', 'g', 'h','i', 'j', 'k', 'l','m', 'n', 'o', 'p', 'q', 'r', 's','t','u','v','w','x','y','z']; 
 
@@ -16,44 +21,52 @@ export class AppComponent {
 
   symbols:string[] = [']', '[', '(',')','{','}','|','&','^','~','`','@','#','$','%',',','.','!','?',';',':','\'','\"','\\','/','-','+','*','=','<','>']
 
+  preferences:string[] = [];
+  
   rand:number = Math.floor(Math.random() * 25);
 
-  currChar:string = this.letters[0];
+  currChar:string = this.preferences[0];
 
-  arrSize:number = this.letters.length;
+  prevChar:string = "";
+
+  arrSize:number = this.preferences.length;
 
   correct:boolean = false;
 
-  chooseRandom(characters:string[]): string {
-    let result:string = "";
-
-    return result;
-  }
-
-  getRandomInt() {
-    this.rand = Math.floor(Math.random() * (this.arrSize));
+  getRandomInt():number {
+    return this.rand = Math.floor(Math.random() * (this.arrSize));
   }
 
   getRandomCharacter() {
-    this.currChar = this.letters[this.rand]
+    this.currChar = this.preferences[this.rand]
   } 
-
-  onInput(event: any) {
-    if (this.currChar == event.target.value) {
-      this.correct = true;
-    }
+  
+  getNextChar() {
+    this.prevChar = this.currChar;
     this.getRandomInt();
     this.getRandomCharacter();
   }
 
+  onInput(event: any) {
+    const lastTypedChar: string = event.target.value.slice(-1);
+    if (this.currChar == lastTypedChar) {
+      this.correct = true;
+    }
+    else {
+      this.correct = false;
+    }
+    this.getNextChar();
+  }
 
+  addPref(event: any) {
+    if(!this.preferences.includes(event.target.innerText)) {
+      this.preferences.push(event.target.innerText);
+      this.arrSize = this.preferences.length;
+    }
+  }
 
-
-
-  test() {
-    this.symbols.forEach((s) => {
-      console.log(s + " " + this.symbols.indexOf(s));
-    })
+  resetPrefs() {
+    this.preferences = [];
   }
 
 }
