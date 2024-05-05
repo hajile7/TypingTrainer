@@ -8,8 +8,15 @@
         }    
     }
     <p style="color: gray">{{this.currChar}}</p>
+    <p>{{this.elapsedTime}}</p>
     <input type="text" (input)="onInput($event)">
     <div class="row">
+        @if(testDone) {
+            <p style="color:green">Keys pressed: {{keysPressed}} Accuracy: {{accuracy}}</p>
+        }
+        @else {
+            <p>Keys pressed: {{keysPressed}} Accuracy: {{accuracy}}</p>
+        }
         <p><u>PREFERENCES</u></p>
         <p>Letters:</p>
         <div class="col" *ngFor="let letter of letters">

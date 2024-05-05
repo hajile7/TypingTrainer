@@ -33,6 +33,20 @@ export class AppComponent {
 
   correct:boolean = false;
 
+  keysPressed:number = 0;
+
+  correctKeys:number = 0;
+
+  accuracy:number = 0;
+
+  startTime:number = 0;
+
+  currentTime:number = 0;
+
+  elapsedTime:number = 0;
+
+  testDone:boolean = false;
+
   getRandomInt():number {
     return this.rand = Math.floor(Math.random() * (this.arrSize));
   }
@@ -49,13 +63,37 @@ export class AppComponent {
 
   onInput(event: any) {
     const lastTypedChar: string = event.target.value.slice(-1);
-    if (this.currChar == lastTypedChar) {
-      this.correct = true;
+    if(!this.startTime) {
+      this.startTime = Date.now();
+      this.updateTimer();
+    }
+    if(this.preferences.includes(lastTypedChar)) {
+      this.keysPressed++;
+      if (this.currChar == lastTypedChar) {
+        this.correct = true;
+        this.correctKeys++;
+      }
+      else {
+        this.correct = false;
+      }
+      this.accuracy = Number.parseFloat((this.correctKeys/this.keysPressed).toFixed(2));
+      this.getNextChar();
+    }
+  }
+
+  updateTimer() {
+    this.currentTime = Date.now();
+    this.elapsedTime = Math.floor((this.currentTime - this.startTime) / 1000);
+
+    if(this.elapsedTime >= 60) {
+      this.testDone = true;
     }
     else {
-      this.correct = false;
+      setTimeout(() => {
+        this.updateTimer();
+      }, 1000);
     }
-    this.getNextChar();
+
   }
 
   addPref(event: any) {
