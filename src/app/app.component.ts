@@ -47,6 +47,9 @@ export class AppComponent {
 
   testDone:boolean = false;
 
+
+
+
   getRandomInt():number {
     return this.rand = Math.floor(Math.random() * (this.arrSize));
   }
@@ -100,11 +103,33 @@ export class AppComponent {
     if(!this.preferences.includes(event.target.innerText)) {
       this.preferences.push(event.target.innerText);
       this.arrSize = this.preferences.length;
+      if (this.preferences.length == 0) {
+        this.getRandomCharacter();
+      }
+      else {
+        this.getNextChar();
+      }
     }
   }
 
   resetPrefs() {
     this.preferences = [];
+  }
+
+  resetInstance() {
+
+    //reset timer
+    this.startTime = 0;
+    this.currentTime = 0;
+    this.elapsedTime = 0;
+    this.testDone = false;
+
+    //reset test values
+    this.keysPressed = 0;
+    this.correctKeys = 0;
+    this.accuracy = 0;
+
+
   }
 
 }

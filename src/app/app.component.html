@@ -8,26 +8,26 @@
         }    
     }
     <p style="color: gray">{{this.currChar}}</p>
-    <p>{{this.elapsedTime}}</p>
+    @if(this.elapsedTime != 0) {
+        <p>{{this.elapsedTime}}</p>
+    }
     <input type="text" (input)="onInput($event)">
     <div class="row">
         @if(testDone) {
-            <p style="color:green">Keys pressed: {{keysPressed}} Accuracy: {{accuracy}}</p>
-        }
-        @else {
-            <p>Keys pressed: {{keysPressed}} Accuracy: {{accuracy}}</p>
+            <p style="color:green">{{keysPressed}} cpm with an accuracy of {{accuracy}} </p>
+            <button (click)="resetInstance()">Play again?</button>
         }
         <p><u>PREFERENCES</u></p>
         <p>Letters:</p>
-        <div class="col" *ngFor="let letter of letters">
+        <div class="col-3" *ngFor="let letter of letters">
            <p (click)="addPref($event)" style="cursor: pointer;">{{letter}}</p> 
         </div>
         <p>Symbols:</p>
-        <div class="col" *ngFor="let symbol of symbols">
+        <div class="col-3" *ngFor="let symbol of symbols">
             <p (click)="addPref($event)" style="cursor: pointer;">{{symbol}}</p> 
         </div>
          <p>Numbers:</p>
-         <div class="col" *ngFor="let number of numbers">
+         <div class="col-3" *ngFor="let number of numbers">
             <p (click)="addPref($event)" style="cursor: pointer;">{{number}}</p> 
         </div>
     </div>
