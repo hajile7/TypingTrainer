@@ -47,6 +47,8 @@ export class AppComponent {
 
   testDone:boolean = false;
 
+  showPrefs:boolean = false;
+
 
 
 
@@ -114,6 +116,8 @@ export class AppComponent {
 
   resetPrefs() {
     this.preferences = [];
+    this.currChar = ""; 
+    this.prevChar = "";
   }
 
   resetInstance() {
@@ -130,6 +134,15 @@ export class AppComponent {
     this.accuracy = 0;
 
 
+  }
+
+  togglePrefs() {
+    if(this.showPrefs) {
+      this.showPrefs = false;
+    }
+    else {
+      this.showPrefs = true;
+    }
   }
 
 }

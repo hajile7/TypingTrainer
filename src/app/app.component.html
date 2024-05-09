@@ -1,41 +1,63 @@
-<div class="row" style="background-color: black;">
-    @if(prevChar != "") {
-        @if(correct) {
-            <p style="color: green;">{{prevChar}}</p>
-        }
-        @else {
-            <p style="color:red">{{prevChar}}</p>
-        }    
-    }
-    <p style="color: gray">{{this.currChar}}</p>
-    @if(this.elapsedTime != 0) {
-        <p>{{this.elapsedTime}}</p>
-    }
-    <input type="text" (input)="onInput($event)">
+<div class="container fluid" style="background-color: black;">
+
     <div class="row">
-        @if(testDone) {
-            <p style="color:green">{{keysPressed}} cpm with an accuracy of {{accuracy}} </p>
-            <button (click)="resetInstance()">Play again?</button>
+        <div class="col-1 offset-5" style="text-align: center;">
+            @if(this.elapsedTime != 0) {
+                <p>{{this.elapsedTime}}</p>
+            }
+        </div>
+        <div class="row">
+            @if(prevChar != "" && this.keysPressed != 0) {
+                @if(correct) {
+                    <div class="col-1 offset-5" style="color: green;">{{prevChar}}</div>
+                }
+                @else {
+                    <div class="col-1 offset-5" style="color:red">{{prevChar}}</div>
+                }    
+            }
+            <div class="col-1" style="color: gray;">{{this.currChar}}</div>
+        </div>
+        <br>
+        <input type="text" placeholder="Start typing to get started" onkeypress="this.value=''" (input)="onInput($event)">
+        <div class="row">
+            <div class="row">
+                <div class="col-2 offset-5">
+                    @if(testDone) {
+                        <p style="color:green">{{keysPressed}} cpm with an accuracy of {{accuracy * 100}}% </p>
+                        <button (click)="resetInstance()">Play again?</button>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                @if(elapsedTime == 0 || testDone) {
+                    <p (click)="togglePrefs()" style="cursor: pointer;"><u>PREFERENCES (click to show)</u></p>
+                }
+                @if(showPrefs && (this.elapsedTime == 0 || this.testDone)) {
+                    <p>Symbols:</p>
+                    <div class="col-auto" (click)="addPref($event)" style="cursor: pointer;" *ngFor="let symbol of symbols">
+                        {{symbol}}
+                    </div>
+                    <br><br>
+                    <p>Letters:</p>
+                    <div class="col-auto" (click)="addPref($event)" style="cursor: pointer;" *ngFor="let letter of letters">
+                        {{letter}}
+                    </div>
+                    <br><br>
+                    <p>Numbers:</p>
+                    <div class="col-auto" (click)="addPref($event)" style="cursor: pointer;" *ngFor="let number of numbers">
+                        {{number}}
+                    </div>
+                    <br><br>
+                    <p>Your Preferences:</p>
+                        <div class="col-auto" *ngFor="let char of preferences">
+                            {{char}}
+                        </div>
+                }
+            </div>
+        </div>
+        @if(elapsedTime == 0 || testDone) {
+            <button class="btn btn-danger" (click)="resetPrefs()">Reset Preferences</button>    
         }
-        <p><u>PREFERENCES</u></p>
-        <p>Letters:</p>
-        <div class="col-3" *ngFor="let letter of letters">
-           <p (click)="addPref($event)" style="cursor: pointer;">{{letter}}</p> 
-        </div>
-        <p>Symbols:</p>
-        <div class="col-3" *ngFor="let symbol of symbols">
-            <p (click)="addPref($event)" style="cursor: pointer;">{{symbol}}</p> 
-        </div>
-         <p>Numbers:</p>
-         <div class="col-3" *ngFor="let number of numbers">
-            <p (click)="addPref($event)" style="cursor: pointer;">{{number}}</p> 
-        </div>
     </div>
-    <p>Your Preferences:</p>
-    <div class="row justify-content-center">
-        <div class="col align-self-center" *ngFor="let char of preferences">
-            <p style="color:red"> {{char}} </p>
-        </div>
-    </div>
-    <button class="btn btn-danger" (click)="resetPrefs()">Reset Preferences</button>
+
 </div>
